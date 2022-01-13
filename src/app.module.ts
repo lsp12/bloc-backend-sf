@@ -1,0 +1,32 @@
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UsersModule } from './users/users.module';
+import { ValidationPipe } from './validation.pipe';
+import { PostBlogModule } from './post-blog/post-blog.module';
+import { CommentsModule } from './comments/comments.module';
+
+@Module({
+  /* imports: [MongooseModule.forRoot('mongodb+srv://lsp12:blocsumifru@cluster0.oax48.mongodb.net/BlogSumifru?retryWrites=true&w=majority')], */
+  imports: [
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (config: ConfigService) => ({
+        uri: config.get<string>('MONGODB_URI'),
+      }),
+      inject: [ConfigService],
+    }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    UsersModule,
+    PostBlogModule,
+    CommentsModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService, ValidationPipe],
+})
+export class AppModule {}
