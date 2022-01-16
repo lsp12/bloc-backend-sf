@@ -16,7 +16,4 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   position: string;
-
-  @IsArray()
-  postMessage: [object];
 }

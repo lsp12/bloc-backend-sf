@@ -9,7 +9,11 @@ import { Comment } from './entities/comment.entity';
 export class CommentsService {
   constructor(@InjectModel('Comment') private commentsModule: Model<Comment>) {}
 
-  async create(createCommentDto: CreateCommentDto): Promise<Comment> {
+  async create(
+    createCommentDto: CreateCommentDto,
+    user: string
+  ): Promise<Comment> {
+    createCommentDto.userId = user;
     const comment = new this.commentsModule(createCommentDto);
     return await comment.save();
   }
@@ -20,10 +24,14 @@ export class CommentsService {
   }
 
   async findByPost(id: string): Promise<Comment[]> {
-    const comments = await this.commentsModule.find({
-      postBlogId: id
-    });
-    if (comments.length === 0) throw new NotFoundException('Comment not found');
+    const comments = await this.commentsModule
+      .find({
+        postBlogId: id
+      })
+      .sort({
+        createdAt: -1
+      });
+    if (comments.length === 0) [];
     return comments;
   }
 

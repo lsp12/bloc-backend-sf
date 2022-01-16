@@ -22,13 +22,18 @@ export class PostBlogController {
   }
 
   @Get()
-  findAll() {
+  findAll(@Body() user: string) {
     return this.postBlogService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.postBlogService.findOne(id);
+  }
+
+  @Get('mypost/:id')
+  findByUserId(@Param('id') id: string) {
+    return this.postBlogService.findByUserId(id);
   }
 
   @Get(':title/title')

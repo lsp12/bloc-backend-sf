@@ -5,7 +5,7 @@ import {
   Body,
   Param,
   Delete,
-  Put,
+  Put
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -17,7 +17,14 @@ export class UsersController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
+    console.log(createUserDto);
     return this.usersService.create(createUserDto);
+  }
+
+  @Get('login/:email/:password')
+  login(@Param('email') email: string, @Param('password') password: string) {
+    console.log(email, password);
+    return this.usersService.Login(email, password);
   }
 
   @Get()

@@ -4,7 +4,7 @@ export const postBlogSchema = new Schema(
   {
     userid: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: 'Users'
     },
     title: {
       type: String
