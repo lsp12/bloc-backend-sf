@@ -14,17 +14,7 @@ import { CommentsController } from './comments/comments.controller';
 @Module({
   /* imports: [MongooseModule.forRoot('mongodb+srv://lsp12:blocsumifru@cluster0.oax48.mongodb.net/BlogSumifru?retryWrites=true&w=majority')], */
   imports: [
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: async (config: ConfigService) => ({
-        uri: config.get<string>('MONGODB_URI')
-      }),
-      inject: [ConfigService]
-    }),
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env'
-    }),
+    MongooseModule.forRoot(process.env.MONGODB_URI),
     UsersModule,
     PostBlogModule,
     CommentsModule

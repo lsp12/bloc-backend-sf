@@ -9,6 +9,7 @@ async function bootstrap() {
   app.enableCors();
 
   await app.listen(port);
+  console.log(`database in ${process.env.MONGODB_URI}`);
   console.log('el servidor esta correindo en el puerto ' + port);
 }
 bootstrap();
