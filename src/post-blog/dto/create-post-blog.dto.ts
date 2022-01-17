@@ -9,8 +9,10 @@ import {
 } from 'class-validator';
 
 export class CreatePostBlogDto {
-  @IsMongoId()
-  @IsNotEmpty()
+  @IsOptional()
+  user: string;
+
+  @IsOptional()
   userid: string;
 
   @IsString()

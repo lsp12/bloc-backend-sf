@@ -6,11 +6,13 @@ import {
   Patch,
   Param,
   Delete,
-  Put
+  Put,
+  Req
 } from '@nestjs/common';
 import { PostBlogService } from './post-blog.service';
 import { CreatePostBlogDto } from './dto/create-post-blog.dto';
 import { UpdatePostBlogDto } from './dto/update-post-blog.dto';
+import { Request, Response } from 'express';
 
 @Controller('post-blog')
 export class PostBlogController {
@@ -18,17 +20,27 @@ export class PostBlogController {
 
   @Post()
   create(@Body() createPostBlogDto: CreatePostBlogDto) {
+    createPostBlogDto.userid = createPostBlogDto.user;
     return this.postBlogService.create(createPostBlogDto);
   }
 
   @Get()
-  findAll() {
+  findAll(@Body() user: string) {
     return this.postBlogService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.postBlogService.findOne(id);
+  }
+
+  @Get('postmy/:id')
+  findUser(@Req() request: Request, @Param('id') n: string) {
+    const id = request.headers.user;
+    console.log(id);
+    if (typeof id === 'string') {
+      return this.postBlogService.findByUserId(id);
+    }
   }
 
   @Get(':title/title')
@@ -72,6 +84,7 @@ export class PostBlogController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
+    console.log(id);
     return this.postBlogService.remove(id);
   }
 }

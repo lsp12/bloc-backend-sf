@@ -9,17 +9,26 @@ import { bcryptCompare, bcryptPassword } from './bcrypt/bcryptUser';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel('Users') private userModel: Model<User>) {}
+
+  generateAuthToken(user: User) {
+    const token = jwt.sign({ user: user._id.toString() }, 'sumifru', {
+      expiresIn: 36000
+    });
+    return token;
+  }
 
   async Login(email: string, password: string) {
     const user = await this.userModel.findOne({ email: email });
     if (!user) throw new NotFoundException('User not found');
     const isValid = await bcryptCompare(password, user.password);
     if (!isValid) throw new NotFoundException('Password not valid');
-    return user;
+    const token = this.generateAuthToken(user);
+    return token;
   }
 
   async create(createUserDto: CreateUserDto): Promise<User> {

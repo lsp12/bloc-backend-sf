@@ -20,19 +20,26 @@ export class CommentsService {
   }
 
   async findByPost(id: string): Promise<Comment[]> {
-    const comments = await this.commentsModule.find({
-      postBlogId: id
-    });
-    if (comments.length === 0) throw new NotFoundException('Comment not found');
+    const comments = await this.commentsModule
+      .find({
+        postBlogId: id
+      })
+      .sort({
+        createdAt: -1
+      })
+      .populate({
+        path: 'userId'
+      });
+    if (comments.length === 0) [];
     return comments;
   }
 
-  async update(id: number, updateCommentDto: UpdateCommentDto) {
+  async update(id: string, updateCommentDto: UpdateCommentDto) {
     await this.commentsModule.findByIdAndUpdate(id, updateCommentDto);
     return `updated successfully`;
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     await this.commentsModule.findByIdAndRemove(id);
     return `deleted successfully`;
   }

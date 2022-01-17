@@ -17,7 +17,30 @@ export class PostBlogService {
   }
 
   async findAll(): Promise<PostBlog[]> {
-    const postblogs = await this.postblogModel.find();
+    //hacer consulta anidada para traer los usuarios que han creado el post
+    const postblogs = await this.postblogModel
+      .find()
+      .sort({
+        createdAt: -1
+      })
+      .populate({
+        path: 'userid'
+      });
+    return postblogs;
+  }
+
+  async findByUserId(id: string): Promise<PostBlog[]> {
+    const postblogs = await this.postblogModel
+      .find({
+        userid: id
+      })
+      .sort({
+        createdAt: -1
+      })
+      .populate({
+        path: 'userid'
+      });
+    if (postblogs.length === 0) return [];
     return postblogs;
   }
 
@@ -62,7 +85,9 @@ export class PostBlogService {
   }
 
   async findOne(id: string): Promise<PostBlog> {
-    const postblog = await this.postblogModel.findOne({ _id: id });
+    const postblog = await this.postblogModel.findOne({ _id: id }).populate({
+      path: 'userid'
+    });
     if (!postblog) throw new NotFoundException('PostBlog not found');
     return postblog;
   }

@@ -6,10 +6,12 @@ import {
   Param,
   Delete,
   Put,
+  Req
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Request } from 'express';
 
 @Controller('users')
 export class UsersController {
@@ -18,6 +20,11 @@ export class UsersController {
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
+  }
+
+  @Get('login/:email/:password')
+  login(@Param('email') email: string, @Param('password') password: string) {
+    return this.usersService.Login(email, password);
   }
 
   @Get()
@@ -35,9 +42,12 @@ export class UsersController {
     return this.usersService.findByName(name);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(id);
+  @Get('onlyuser')
+  findOne(@Req() request: Request) {
+    const id = request.headers.user;
+    if (typeof id === 'string') {
+      return this.usersService.findOne(id);
+    }
   }
 
   @Put(':id')
