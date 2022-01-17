@@ -15,7 +15,7 @@ import { CommentsController } from './comments/comments.controller';
   /* imports: [MongooseModule.forRoot('mongodb+srv://lsp12:blocsumifru@cluster0.oax48.mongodb.net/BlogSumifru?retryWrites=true&w=majority')], */
   imports: [
     MongooseModule.forRoot(
-      'mongodb+srv://lsp12:blocsumifru@cluster0.oax48.mongodb.net/BlogSumifru?retryWrites=true&w=majority'
+      'mongodb+srv://Cris:159753@cluster0.ygdw3.mongodb.net/lectormanga?retryWrites=true&w=majority'
     ),
     UsersModule,
     PostBlogModule,
