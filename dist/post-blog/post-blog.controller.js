@@ -47,6 +47,9 @@ let PostBlogController = class PostBlogController {
     findByEmail(email) {
         return this.postBlogService.findByEmail(email);
     }
+    findByEmailOrNameOrTitle(data) {
+        return this.postBlogService.findByEmailOrNameOrTitle(data, data, data);
+    }
     update(id, updatePostBlogDto) {
         return this.postBlogService.update(id, updatePostBlogDto);
     }
@@ -111,6 +114,13 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PostBlogController.prototype, "findByEmail", null);
+__decorate([
+    (0, common_1.Get)('/:data/findPost'),
+    __param(0, (0, common_1.Param)('data')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], PostBlogController.prototype, "findByEmailOrNameOrTitle", null);
 __decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id')),

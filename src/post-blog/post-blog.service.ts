@@ -52,19 +52,23 @@ export class PostBlogService {
           $options: 'i'
         }
       })
-      .populate('User');
+      .populate('Users');
     if (postblogs.length === 0)
       throw new NotFoundException('PostBlog not found');
     return postblogs;
   }
 
   async findByTitle(title: string): Promise<PostBlog[]> {
-    const postblogs = await this.postblogModel.find({
-      title: {
-        $regex: title,
-        $options: 'i'
-      }
-    });
+    const postblogs = await this.postblogModel
+      .find({
+        title: {
+          $regex: title,
+          $options: 'i'
+        }
+      })
+      .populate({
+        path: 'userid'
+      });
     if (postblogs.length === 0)
       throw new NotFoundException('PostBlog not found');
     return postblogs;
@@ -90,6 +94,29 @@ export class PostBlogService {
     });
     if (!postblog) throw new NotFoundException('PostBlog not found');
     return postblog;
+  }
+
+  //Buscar un post por email, nombre de usuario o titulo
+  async findByEmailOrNameOrTitle(
+    email: string,
+    name: string,
+    title: string
+  ): Promise<PostBlog[]> {
+    const postblogs = await this.postblogModel
+      .find({
+        $or: [
+          {
+            nameUser: name
+          }
+        ]
+      })
+      .populate({
+        path: 'userid'
+      });
+    console.log(postblogs);
+    if (postblogs.length === 0)
+      throw new NotFoundException('PostBlog not found');
+    return postblogs;
   }
 
   async update(id: string, updatePostBlogDto: UpdatePostBlogDto) {

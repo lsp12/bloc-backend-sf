@@ -58,6 +58,11 @@ export class PostBlogController {
     return this.postBlogService.findByEmail(email);
   }
 
+  @Get('/:data/findPost')
+  findByEmailOrNameOrTitle(@Param('data') data: string) {
+    return this.postBlogService.findByEmailOrNameOrTitle(data, data, data);
+  }
+
   @Put(':id')
   update(
     @Param('id') id: string,

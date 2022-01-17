@@ -12,6 +12,7 @@ export declare class PostBlogService {
     findByTitle(title: string): Promise<PostBlog[]>;
     findByEmail(email: string): Promise<PostBlog[]>;
     findOne(id: string): Promise<PostBlog>;
+    findByEmailOrNameOrTitle(email: string, name: string, title: string): Promise<PostBlog[]>;
     update(id: string, updatePostBlogDto: UpdatePostBlogDto): Promise<string>;
     addComment(id: string, updatePostBlogDto: UpdatePostBlogDto): Promise<string>;
     updateComment(id: string, updatePostBlogDto: UpdatePostBlogDto): Promise<string>;

@@ -58,17 +58,21 @@ let PostBlogService = class PostBlogService {
                 $options: 'i'
             }
         })
-            .populate('User');
+            .populate('Users');
         if (postblogs.length === 0)
             throw new common_1.NotFoundException('PostBlog not found');
         return postblogs;
     }
     async findByTitle(title) {
-        const postblogs = await this.postblogModel.find({
+        const postblogs = await this.postblogModel
+            .find({
             title: {
                 $regex: title,
                 $options: 'i'
             }
+        })
+            .populate({
+            path: 'userid'
         });
         if (postblogs.length === 0)
             throw new common_1.NotFoundException('PostBlog not found');
@@ -94,6 +98,23 @@ let PostBlogService = class PostBlogService {
         if (!postblog)
             throw new common_1.NotFoundException('PostBlog not found');
         return postblog;
+    }
+    async findByEmailOrNameOrTitle(email, name, title) {
+        const postblogs = await this.postblogModel
+            .find({
+            $or: [
+                {
+                    nameUser: name
+                }
+            ]
+        })
+            .populate({
+            path: 'userid'
+        });
+        console.log(postblogs);
+        if (postblogs.length === 0)
+            throw new common_1.NotFoundException('PostBlog not found');
+        return postblogs;
     }
     async update(id, updatePostBlogDto) {
         await this.postblogModel.findByIdAndUpdate(id, updatePostBlogDto);
