@@ -9,11 +9,7 @@ import { Comment } from './entities/comment.entity';
 export class CommentsService {
   constructor(@InjectModel('Comment') private commentsModule: Model<Comment>) {}
 
-  async create(
-    createCommentDto: CreateCommentDto,
-    user: string
-  ): Promise<Comment> {
-    createCommentDto.userId = user;
+  async create(createCommentDto: CreateCommentDto): Promise<Comment> {
     const comment = new this.commentsModule(createCommentDto);
     return await comment.save();
   }
@@ -30,17 +26,20 @@ export class CommentsService {
       })
       .sort({
         createdAt: -1
+      })
+      .populate({
+        path: 'userId'
       });
     if (comments.length === 0) [];
     return comments;
   }
 
-  async update(id: number, updateCommentDto: UpdateCommentDto) {
+  async update(id: string, updateCommentDto: UpdateCommentDto) {
     await this.commentsModule.findByIdAndUpdate(id, updateCommentDto);
     return `updated successfully`;
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     await this.commentsModule.findByIdAndRemove(id);
     return `deleted successfully`;
   }

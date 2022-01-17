@@ -36,6 +36,6 @@ export class AppModule {
   configure(consume: MiddlewareConsumer) {
     consume
       .apply(LoggerMiddleware)
-      .forRoutes(PostBlogController, CommentsController);
+      .forRoutes(PostBlogController, CommentsController, 'users/onlyuser/');
   }
 }

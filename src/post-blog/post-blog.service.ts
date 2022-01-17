@@ -18,9 +18,14 @@ export class PostBlogService {
 
   async findAll(): Promise<PostBlog[]> {
     //hacer consulta anidada para traer los usuarios que han creado el post
-    const postblogs = await this.postblogModel.find().populate({
-      path: 'userid'
-    });
+    const postblogs = await this.postblogModel
+      .find()
+      .sort({
+        createdAt: -1
+      })
+      .populate({
+        path: 'userid'
+      });
     return postblogs;
   }
 
@@ -29,11 +34,13 @@ export class PostBlogService {
       .find({
         userid: id
       })
+      .sort({
+        createdAt: -1
+      })
       .populate({
         path: 'userid'
       });
-    if (postblogs.length === 0)
-      throw new NotFoundException('PostBlog not found');
+    if (postblogs.length === 0) return [];
     return postblogs;
   }
 

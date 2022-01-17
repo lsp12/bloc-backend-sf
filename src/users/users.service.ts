@@ -17,7 +17,7 @@ export class UsersService {
 
   generateAuthToken(user: User) {
     const token = jwt.sign({ user: user._id.toString() }, 'sumifru', {
-      expiresIn: 120
+      expiresIn: 36000
     });
     return token;
   }
