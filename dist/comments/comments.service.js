@@ -51,6 +51,10 @@ let CommentsService = class CommentsService {
         await this.commentsModule.findByIdAndRemove(id);
         return `deleted successfully`;
     }
+    async deleteByPost(id) {
+        await this.commentsModule.deleteMany({ postBlogId: id });
+        return `deleted successfully`;
+    }
 };
 CommentsService = __decorate([
     (0, common_1.Injectable)(),

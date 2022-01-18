@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User } from 'src/users/entities/user.entity';
+import { CommentsService } from 'src/comments/comments.service';
 import { CreatePostBlogDto } from './dto/create-post-blog.dto';
 import { UpdatePostBlogDto } from './dto/update-post-blog.dto';
 import { PostBlog } from './entities/post-blog.entity';
@@ -9,7 +9,8 @@ import { PostBlog } from './entities/post-blog.entity';
 @Injectable()
 export class PostBlogService {
   constructor(
-    @InjectModel('PostBlog') private postblogModel: Model<PostBlog>
+    @InjectModel('PostBlog') private postblogModel: Model<PostBlog>,
+    private readonly commentsService: CommentsService
   ) {}
   async create(createPostBlogDto: CreatePostBlogDto): Promise<PostBlog> {
     const postblog = new this.postblogModel(createPostBlogDto);
@@ -52,19 +53,23 @@ export class PostBlogService {
           $options: 'i'
         }
       })
-      .populate('User');
+      .populate('Users');
     if (postblogs.length === 0)
       throw new NotFoundException('PostBlog not found');
     return postblogs;
   }
 
   async findByTitle(title: string): Promise<PostBlog[]> {
-    const postblogs = await this.postblogModel.find({
-      title: {
-        $regex: title,
-        $options: 'i'
-      }
-    });
+    const postblogs = await this.postblogModel
+      .find({
+        title: {
+          $regex: title,
+          $options: 'i'
+        }
+      })
+      .populate({
+        path: 'userid'
+      });
     if (postblogs.length === 0)
       throw new NotFoundException('PostBlog not found');
     return postblogs;
@@ -90,6 +95,29 @@ export class PostBlogService {
     });
     if (!postblog) throw new NotFoundException('PostBlog not found');
     return postblog;
+  }
+
+  //Buscar un post por email, nombre de usuario o titulo
+  async findByEmailOrNameOrTitle(
+    email: string,
+    name: string,
+    title: string
+  ): Promise<PostBlog[]> {
+    const postblogs = await this.postblogModel
+      .find({
+        $or: [
+          {
+            nameUser: name
+          }
+        ]
+      })
+      .populate({
+        path: 'userid'
+      });
+    console.log(postblogs);
+    if (postblogs.length === 0)
+      throw new NotFoundException('PostBlog not found');
+    return postblogs;
   }
 
   async update(id: string, updatePostBlogDto: UpdatePostBlogDto) {
@@ -132,6 +160,7 @@ export class PostBlogService {
 
   async remove(id: string) {
     await this.postblogModel.findByIdAndRemove(id);
+    await this.commentsService.deleteByPost(id);
     return 'PostBlog removed successfully';
   }
 }

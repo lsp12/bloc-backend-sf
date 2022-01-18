@@ -10,4 +10,5 @@ export declare class CommentsService {
     findByPost(id: string): Promise<Comment[]>;
     update(id: string, updateCommentDto: UpdateCommentDto): Promise<string>;
     remove(id: string): Promise<string>;
+    deleteByPost(id: string): Promise<string>;
 }

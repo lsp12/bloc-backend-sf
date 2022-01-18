@@ -22,13 +22,14 @@ let AppModule = class AppModule {
     configure(consume) {
         consume
             .apply(logger_middleware_1.LoggerMiddleware)
+            .exclude({ path: 'post-blog', method: common_1.RequestMethod.GET }, { path: 'post-blog/:id', method: common_1.RequestMethod.GET }, { path: 'post-blog/:title/title', method: common_1.RequestMethod.GET }, { path: 'coments/:id', method: common_1.RequestMethod.GET })
             .forRoutes(post_blog_controller_1.PostBlogController, comments_controller_1.CommentsController, 'users/onlyuser/');
     }
 };
 AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            mongoose_1.MongooseModule.forRoot('mongodb+srv://lsp12:blocsumifru@cluster0.oax48.mongodb.net/BlogSumifru?retryWrites=true&w=majority'),
+            mongoose_1.MongooseModule.forRoot('mongodb+srv://Cris:159753@cluster0.ygdw3.mongodb.net/lectormanga?retryWrites=true&w=majority'),
             users_module_1.UsersModule,
             post_blog_module_1.PostBlogModule,
             comments_module_1.CommentsModule

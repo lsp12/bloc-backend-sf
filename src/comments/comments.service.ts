@@ -43,4 +43,9 @@ export class CommentsService {
     await this.commentsModule.findByIdAndRemove(id);
     return `deleted successfully`;
   }
+
+  async deleteByPost(id: string) {
+    await this.commentsModule.deleteMany({ postBlogId: id });
+    return `deleted successfully`;
+  }
 }

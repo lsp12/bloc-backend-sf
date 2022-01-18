@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   Put,
@@ -12,7 +11,7 @@ import {
 import { PostBlogService } from './post-blog.service';
 import { CreatePostBlogDto } from './dto/create-post-blog.dto';
 import { UpdatePostBlogDto } from './dto/update-post-blog.dto';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 @Controller('post-blog')
 export class PostBlogController {
@@ -56,6 +55,11 @@ export class PostBlogController {
   @Get('/:id/email')
   findByEmail(@Param('email') email: string) {
     return this.postBlogService.findByEmail(email);
+  }
+
+  @Get('/:data/findPost')
+  findByEmailOrNameOrTitle(@Param('data') data: string) {
+    return this.postBlogService.findByEmailOrNameOrTitle(data, data, data);
   }
 
   @Put(':id')

@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -28,6 +28,12 @@ export class AppModule {
   configure(consume: MiddlewareConsumer) {
     consume
       .apply(LoggerMiddleware)
+      .exclude(
+        { path: 'post-blog', method: RequestMethod.GET },
+        { path: 'post-blog/:id', method: RequestMethod.GET },
+        { path: 'post-blog/:title/title', method: RequestMethod.GET },
+        { path: 'coments/:id', method: RequestMethod.GET }
+      )
       .forRoutes(PostBlogController, CommentsController, 'users/onlyuser/');
   }
 }

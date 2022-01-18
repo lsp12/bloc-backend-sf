@@ -16,9 +16,11 @@ exports.PostBlogService = void 0;
 const common_1 = require("@nestjs/common");
 const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
+const comments_service_1 = require("../comments/comments.service");
 let PostBlogService = class PostBlogService {
-    constructor(postblogModel) {
+    constructor(postblogModel, commentsService) {
         this.postblogModel = postblogModel;
+        this.commentsService = commentsService;
     }
     async create(createPostBlogDto) {
         const postblog = new this.postblogModel(createPostBlogDto);
@@ -58,17 +60,21 @@ let PostBlogService = class PostBlogService {
                 $options: 'i'
             }
         })
-            .populate('User');
+            .populate('Users');
         if (postblogs.length === 0)
             throw new common_1.NotFoundException('PostBlog not found');
         return postblogs;
     }
     async findByTitle(title) {
-        const postblogs = await this.postblogModel.find({
+        const postblogs = await this.postblogModel
+            .find({
             title: {
                 $regex: title,
                 $options: 'i'
             }
+        })
+            .populate({
+            path: 'userid'
         });
         if (postblogs.length === 0)
             throw new common_1.NotFoundException('PostBlog not found');
@@ -95,6 +101,23 @@ let PostBlogService = class PostBlogService {
             throw new common_1.NotFoundException('PostBlog not found');
         return postblog;
     }
+    async findByEmailOrNameOrTitle(email, name, title) {
+        const postblogs = await this.postblogModel
+            .find({
+            $or: [
+                {
+                    nameUser: name
+                }
+            ]
+        })
+            .populate({
+            path: 'userid'
+        });
+        console.log(postblogs);
+        if (postblogs.length === 0)
+            throw new common_1.NotFoundException('PostBlog not found');
+        return postblogs;
+    }
     async update(id, updatePostBlogDto) {
         await this.postblogModel.findByIdAndUpdate(id, updatePostBlogDto);
         return 'PostBlog updated successfully';
@@ -117,13 +140,15 @@ let PostBlogService = class PostBlogService {
     }
     async remove(id) {
         await this.postblogModel.findByIdAndRemove(id);
+        await this.commentsService.deleteByPost(id);
         return 'PostBlog removed successfully';
     }
 };
 PostBlogService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, mongoose_1.InjectModel)('PostBlog')),
-    __metadata("design:paramtypes", [mongoose_2.Model])
+    __metadata("design:paramtypes", [mongoose_2.Model,
+        comments_service_1.CommentsService])
 ], PostBlogService);
 exports.PostBlogService = PostBlogService;
 //# sourceMappingURL=post-blog.service.js.map

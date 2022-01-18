@@ -12,6 +12,7 @@ export declare class PostBlogController {
     findByTitle(title: string): Promise<import("./entities/post-blog.entity").PostBlog[]>;
     findByName(name: string): Promise<import("./entities/post-blog.entity").PostBlog[]>;
     findByEmail(email: string): Promise<import("./entities/post-blog.entity").PostBlog[]>;
+    findByEmailOrNameOrTitle(data: string): Promise<import("./entities/post-blog.entity").PostBlog[]>;
     update(id: string, updatePostBlogDto: UpdatePostBlogDto): Promise<string>;
     addComment(id: string, updatePostBlogDto: UpdatePostBlogDto): Promise<string>;
     addCommentUp(id: string, updatePostBlogDto: UpdatePostBlogDto): Promise<string>;

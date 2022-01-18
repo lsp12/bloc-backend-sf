@@ -15,6 +15,7 @@ import { commentSchema } from './Schema/comment.schema';
     ])
   ],
   controllers: [CommentsController],
-  providers: [CommentsService]
+  providers: [CommentsService],
+  exports: [CommentsService]
 })
 export class CommentsModule {}
