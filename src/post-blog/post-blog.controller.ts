@@ -3,7 +3,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   Put,
@@ -12,7 +11,7 @@ import {
 import { PostBlogService } from './post-blog.service';
 import { CreatePostBlogDto } from './dto/create-post-blog.dto';
 import { UpdatePostBlogDto } from './dto/update-post-blog.dto';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 @Controller('post-blog')
 export class PostBlogController {

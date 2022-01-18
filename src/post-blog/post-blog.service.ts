@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User } from 'src/users/entities/user.entity';
+import { CommentsService } from 'src/comments/comments.service';
 import { CreatePostBlogDto } from './dto/create-post-blog.dto';
 import { UpdatePostBlogDto } from './dto/update-post-blog.dto';
 import { PostBlog } from './entities/post-blog.entity';
@@ -9,7 +9,8 @@ import { PostBlog } from './entities/post-blog.entity';
 @Injectable()
 export class PostBlogService {
   constructor(
-    @InjectModel('PostBlog') private postblogModel: Model<PostBlog>
+    @InjectModel('PostBlog') private postblogModel: Model<PostBlog>,
+    private readonly commentsService: CommentsService
   ) {}
   async create(createPostBlogDto: CreatePostBlogDto): Promise<PostBlog> {
     const postblog = new this.postblogModel(createPostBlogDto);
@@ -159,6 +160,7 @@ export class PostBlogService {
 
   async remove(id: string) {
     await this.postblogModel.findByIdAndRemove(id);
+    await this.commentsService.deleteByPost(id);
     return 'PostBlog removed successfully';
   }
 }

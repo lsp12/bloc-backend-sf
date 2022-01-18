@@ -12,6 +12,7 @@ const post_blog_service_1 = require("./post-blog.service");
 const post_blog_controller_1 = require("./post-blog.controller");
 const mongoose_1 = require("@nestjs/mongoose");
 const post_blog_schema_1 = require("./Schema/post-blog.schema");
+const comments_module_1 = require("../comments/comments.module");
 let PostBlogModule = class PostBlogModule {
 };
 PostBlogModule = __decorate([
@@ -22,7 +23,8 @@ PostBlogModule = __decorate([
                     name: 'PostBlog',
                     schema: post_blog_schema_1.postBlogSchema
                 }
-            ])
+            ]),
+            comments_module_1.CommentsModule
         ],
         controllers: [post_blog_controller_1.PostBlogController],
         providers: [post_blog_service_1.PostBlogService]

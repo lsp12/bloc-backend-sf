@@ -4,6 +4,8 @@ import { PostBlogController } from './post-blog.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { postBlogSchema } from './Schema/post-blog.schema';
 import { commentSchema } from '../comments/Schema/comment.schema';
+import { CommentsService } from 'src/comments/comments.service';
+import { CommentsModule } from 'src/comments/comments.module';
 
 @Module({
   imports: [
@@ -12,7 +14,8 @@ import { commentSchema } from '../comments/Schema/comment.schema';
         name: 'PostBlog',
         schema: postBlogSchema
       }
-    ])
+    ]),
+    CommentsModule
   ],
   controllers: [PostBlogController],
   providers: [PostBlogService]

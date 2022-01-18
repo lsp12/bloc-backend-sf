@@ -1,10 +1,12 @@
 import { Model } from 'mongoose';
+import { CommentsService } from 'src/comments/comments.service';
 import { CreatePostBlogDto } from './dto/create-post-blog.dto';
 import { UpdatePostBlogDto } from './dto/update-post-blog.dto';
 import { PostBlog } from './entities/post-blog.entity';
 export declare class PostBlogService {
     private postblogModel;
-    constructor(postblogModel: Model<PostBlog>);
+    private readonly commentsService;
+    constructor(postblogModel: Model<PostBlog>, commentsService: CommentsService);
     create(createPostBlogDto: CreatePostBlogDto): Promise<PostBlog>;
     findAll(): Promise<PostBlog[]>;
     findByUserId(id: string): Promise<PostBlog[]>;

@@ -25,7 +25,8 @@ CommentsModule = __decorate([
             ])
         ],
         controllers: [comments_controller_1.CommentsController],
-        providers: [comments_service_1.CommentsService]
+        providers: [comments_service_1.CommentsService],
+        exports: [comments_service_1.CommentsService]
     })
 ], CommentsModule);
 exports.CommentsModule = CommentsModule;
