@@ -22,7 +22,10 @@ let AppModule = class AppModule {
     configure(consume) {
         consume
             .apply(logger_middleware_1.LoggerMiddleware)
-            .exclude({ path: 'post-blog', method: common_1.RequestMethod.GET }, { path: 'post-blog/:id', method: common_1.RequestMethod.GET }, { path: 'post-blog/:title/title', method: common_1.RequestMethod.GET }, { path: 'coments/:id', method: common_1.RequestMethod.GET })
+            .exclude({ path: 'post-blog', method: common_1.RequestMethod.GET }, { path: 'post-blog/:id', method: common_1.RequestMethod.GET }, { path: 'post-blog/:title/title', method: common_1.RequestMethod.GET }, {
+            path: 'post-blog/range/:startDate/:endDate',
+            method: common_1.RequestMethod.GET
+        }, { path: 'coments/:id', method: common_1.RequestMethod.GET })
             .forRoutes(post_blog_controller_1.PostBlogController, comments_controller_1.CommentsController, 'users/onlyuser/');
     }
 };

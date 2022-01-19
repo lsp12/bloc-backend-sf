@@ -1,3 +1,4 @@
+/// <reference types="mongoose" />
 import { PostBlogService } from './post-blog.service';
 import { CreatePostBlogDto } from './dto/create-post-blog.dto';
 import { UpdatePostBlogDto } from './dto/update-post-blog.dto';
@@ -13,6 +14,9 @@ export declare class PostBlogController {
     findByName(name: string): Promise<import("./entities/post-blog.entity").PostBlog[]>;
     findByEmail(email: string): Promise<import("./entities/post-blog.entity").PostBlog[]>;
     findByEmailOrNameOrTitle(data: string): Promise<import("./entities/post-blog.entity").PostBlog[]>;
+    findForRangeDate(startDate: Date, endDate: Date): Promise<(import("mongoose").Document<any, any, import("./entities/post-blog.entity").PostBlog> & import("./entities/post-blog.entity").PostBlog & {
+        _id: import("mongoose").Types.ObjectId;
+    })[]>;
     update(id: string, updatePostBlogDto: UpdatePostBlogDto): Promise<string>;
     addComment(id: string, updatePostBlogDto: UpdatePostBlogDto): Promise<string>;
     addCommentUp(id: string, updatePostBlogDto: UpdatePostBlogDto): Promise<string>;

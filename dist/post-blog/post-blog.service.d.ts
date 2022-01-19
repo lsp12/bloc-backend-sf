@@ -15,6 +15,9 @@ export declare class PostBlogService {
     findByEmail(email: string): Promise<PostBlog[]>;
     findOne(id: string): Promise<PostBlog>;
     findByEmailOrNameOrTitle(email: string, name: string, title: string): Promise<PostBlog[]>;
+    findForRangeDate(startDate: Date, endDate: Date): Promise<(import("mongoose").Document<any, any, PostBlog> & PostBlog & {
+        _id: import("mongoose").Types.ObjectId;
+    })[]>;
     update(id: string, updatePostBlogDto: UpdatePostBlogDto): Promise<string>;
     addComment(id: string, updatePostBlogDto: UpdatePostBlogDto): Promise<string>;
     updateComment(id: string, updatePostBlogDto: UpdatePostBlogDto): Promise<string>;

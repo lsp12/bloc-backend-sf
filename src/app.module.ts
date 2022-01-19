@@ -32,6 +32,10 @@ export class AppModule {
         { path: 'post-blog', method: RequestMethod.GET },
         { path: 'post-blog/:id', method: RequestMethod.GET },
         { path: 'post-blog/:title/title', method: RequestMethod.GET },
+        {
+          path: 'post-blog/range/:startDate/:endDate',
+          method: RequestMethod.GET
+        },
         { path: 'coments/:id', method: RequestMethod.GET }
       )
       .forRoutes(PostBlogController, CommentsController, 'users/onlyuser/');

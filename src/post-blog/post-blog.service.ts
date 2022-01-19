@@ -120,6 +120,24 @@ export class PostBlogService {
     return postblogs;
   }
 
+  async findForRangeDate(startDate: Date, endDate: Date) {
+    const postblogs = await this.postblogModel
+      .find({
+        createdAt: {
+          $gte: startDate,
+          $lte: endDate
+        }
+      })
+      .sort({
+        createdAt: -1
+      })
+      .populate({
+        path: 'userid'
+      });
+    if (postblogs.length === 0) return [];
+    return postblogs;
+  }
+
   async update(id: string, updatePostBlogDto: UpdatePostBlogDto) {
     await this.postblogModel.findByIdAndUpdate(id, updatePostBlogDto);
     return 'PostBlog updated successfully';

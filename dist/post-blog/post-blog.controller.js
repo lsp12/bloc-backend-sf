@@ -50,6 +50,9 @@ let PostBlogController = class PostBlogController {
     findByEmailOrNameOrTitle(data) {
         return this.postBlogService.findByEmailOrNameOrTitle(data, data, data);
     }
+    findForRangeDate(startDate, endDate) {
+        return this.postBlogService.findForRangeDate(startDate, endDate);
+    }
     update(id, updatePostBlogDto) {
         return this.postBlogService.update(id, updatePostBlogDto);
     }
@@ -121,6 +124,15 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], PostBlogController.prototype, "findByEmailOrNameOrTitle", null);
+__decorate([
+    (0, common_1.Get)('range/:startDate/:endDate'),
+    __param(0, (0, common_1.Param)('startDate')),
+    __param(1, (0, common_1.Param)('endDate')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Date,
+        Date]),
+    __metadata("design:returntype", void 0)
+], PostBlogController.prototype, "findForRangeDate", null);
 __decorate([
     (0, common_1.Put)(':id'),
     __param(0, (0, common_1.Param)('id')),

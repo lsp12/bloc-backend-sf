@@ -62,6 +62,14 @@ export class PostBlogController {
     return this.postBlogService.findByEmailOrNameOrTitle(data, data, data);
   }
 
+  @Get('range/:startDate/:endDate')
+  findForRangeDate(
+    @Param('startDate') startDate: Date,
+    @Param('endDate') endDate: Date
+  ) {
+    return this.postBlogService.findForRangeDate(startDate, endDate);
+  }
+
   @Put(':id')
   update(
     @Param('id') id: string,
